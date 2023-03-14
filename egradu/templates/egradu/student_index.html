@@ -1,0 +1,76 @@
+<h2>Your egradu</h2>
+
+<p>Current status: {{ project.status }}</p>
+<progress max="100" value="100" style="width: 50%;height: 30px;"></progress>
+<br>
+<a href="#">Get more info about this step</a>
+
+{% if project.status < 20 %}
+    <a href="{% url 'upload_document' %}">Upload new version</a>
+{% endif %}
+
+{% if project.status == 11 %}
+    <a href="{% url 'start_review' project.id %}">Start review</a>
+{% endif %}
+
+{% if project.status > 29 %}
+    <h3>Evaluations</h3>
+    <ul>
+        {% for review in evaluations %}
+            <li>{{ review.user }} | Grade: {{ review.grade }} | {{ review.comment }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if plagiarism_check %}
+    <h3>Language check</h3>
+    <ul>
+        {% for review in plagiarism_check %}
+            <li>{{ review.user }} | {% if review.approved %}Approved{% else %}denied{% endif %} | {{ review.comment }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if languagecheck %}
+    <h3>Language check</h3>
+    <ul>
+        {% for review in languagecheck %}
+            <li>{{ review.user }} | Grade: {{ review.grade }} | {{ review.comment }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+{% if document %}
+    <h4>Latest upload</h4>
+    <a href="{% url 'document' document.pk %}">
+        {{ document.file.name }} (Uploaded: {{ document.uploaded }}) {% if document.update %}There is an update{% endif %}
+    </a>
+    <br>
+    {% if document.draft and project.status < 20 %}
+    <a href="{% url 'start_lang_check' document.pk %}">Send for language approval</a>
+    {% endif %}
+{% endif %}
+
+{% if documents %}
+    <h4>Past uploads</h4>
+    <ul>
+    {% for document in documents %}
+        <li>
+            <a href="{% url 'document' document.pk %}">
+                {{ document.file.name }} (Uploaded: {{ document.uploaded }}) {% if document.update %}There is an update{% endif %}
+            </a>
+            <br>
+            {% if document.draft and project.status < 20 %}
+                <a href="{% url 'start_lang_check' document.pk %}">Send for language approval</a>
+            {% endif %}
+            <p></p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+
+<h4>More help</h4>
+<a href="#">General help</a>
+<a href="#">It support</a>

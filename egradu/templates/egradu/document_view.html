@@ -1,0 +1,18 @@
+<h2>{{ object.file.name }}</h2>
+
+<a href="{{ object.file.url }}">Download</a>
+
+<h4>Comments</h4>
+<ul>
+{% for comment in comments %}
+    {{ comment.user }}: {{ comment.comment }}, <a href="{{ comment.commented_document.file.url }}">download the commented document</a>
+{% endfor %}
+</ul>
+
+<h4>Leave a new comment</h4>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>

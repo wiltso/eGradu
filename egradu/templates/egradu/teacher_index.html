@@ -1,0 +1,41 @@
+<h1>Your students</h1>
+
+<h2>Your attention is required</h2>
+<h3>Review and give a grade</h3>
+{% for review in reviews %}
+    <a href="{% url 'review' review.id %}">
+        {{ review.student }}
+    </a>
+{% endfor %}
+
+<h3>Approve for plagiarism</h3>
+<ul>
+{% for project in pending_plagiarism %}
+    <li>
+        <a href="{% url 'project' project.pk %}">
+            {{ project.student }}
+        </a>
+        <a href="{% url 'start_plagiarism' project.pk %}">
+            Send to plagiarism
+        </a>
+    </li>
+{% endfor %}
+</ul>
+
+<h3>Drafts that requires comments</h3>
+<ul>
+    {% for document in drafts %}
+        <li>
+            <a href="{% url 'document' document.pk %}">
+                {{ document.project.student }}: {{ document.file.name }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h3>Your students projects, no action required</h3>
+{% for project in projects %}
+    <a href="{% url 'project' project.pk %}">
+        {{ project.student }} | {{ project.status }}
+    </a>
+{% endfor %}

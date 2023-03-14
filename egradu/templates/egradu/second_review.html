@@ -1,0 +1,18 @@
+<h2>Leave your review</h2>
+
+<a href="{{ document.file.url }}">Download</a>
+
+<h3>Past reviews</h3>
+<ul>
+    {% for review in past_reviews %}
+        <li>{{ review.user }} | Grade: {{ review.grade }} | {{ review.comment }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Leave your review</h3>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>

@@ -1,0 +1,24 @@
+<h2>{{ project.student }}</h2>
+
+<p>Current status: {{ project.status }}</p>
+<progress max="100" value="22" style="width: 50%;height: 30px"></progress>
+
+{% if document %}
+    <h4>Latest upload</h4>
+    <a href="{% url 'document' document.pk %}">
+        {{ document.file.name }} (Uploaded: {{ document.uploaded }})
+    </a>
+{% endif %}
+
+{% if documents %}
+    <h4>Past uploads</h4>
+    <ul>
+    {% for document in documents %}
+        <li>
+            <a href="{% url 'document' document.pk %}">
+                {{ document.file.name }} (Uploaded: {{ document.uploaded }})
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
